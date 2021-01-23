@@ -14,8 +14,6 @@ public class Util {
         String password = "123456789";
         Connection connectionToDatabase = DriverManager.getConnection(url, userName, password);
         Class.forName("com.mysql.jdbc.Driver");
-        connectionToDatabase.setTransactionIsolation(TRANSACTION_READ_COMMITTED);
-        connectionToDatabase.setAutoCommit(false);
 
         return connectionToDatabase;
     }
