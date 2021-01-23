@@ -7,8 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoJDBCImpl implements UserDao {
+import static java.sql.Connection.TRANSACTION_READ_COMMITTED;
 
+public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
 
     }
@@ -18,6 +19,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     "user_name VARCHAR(255) NOT NULL, " +
                     "last_name VARCHAR(255) NOT NULL, " +
                     "age int NOT NULL);");
+            Util.getConnectionToDatabase().commit();
         } catch (SQLException | ClassNotFoundException ignore) {
             //ignore
         }
@@ -26,6 +28,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = Util.getConnectionToDatabase().createStatement()){
             statement.executeUpdate("drop table Users;");
+            Util.getConnectionToDatabase().commit();
         } catch (SQLException | ClassNotFoundException ignore) {
             //ignore
         }
@@ -36,6 +39,7 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.executeUpdate("insert Users (user_name, last_name, age) values " +
                     "(\'" + name + "\', \'" + lastName +"\', " + age + ");");
             System.out.println("User " + name + " added to database");
+            Util.getConnectionToDatabase().commit();
         } catch (SQLException | ClassNotFoundException ignore) {
             //ignore
         }
@@ -44,6 +48,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
         try (Statement statement = Util.getConnectionToDatabase().createStatement()) {
             statement.executeUpdate("DELETE FROM Users WHERE id = " + id + ";");
+            Util.getConnectionToDatabase().commit();
         } catch (SQLException | ClassNotFoundException ignore) {
             //ignore
         }
@@ -61,6 +66,7 @@ public class UserDaoJDBCImpl implements UserDao {
                             resultSet.getString("last_name"), resultSet.getByte("age")));
                 }
 
+                Util.getConnectionToDatabase().commit();
             } catch (SQLException | ClassNotFoundException ignore) {
                 //ignore
             } finally {
@@ -76,6 +82,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         try(Statement statement = Util.getConnectionToDatabase().createStatement()) {
             statement.executeUpdate("TRUNCATE TABLE users;");
+            Util.getConnectionToDatabase().commit();
         } catch (SQLException | ClassNotFoundException ignore) {
             //ignore
         }
