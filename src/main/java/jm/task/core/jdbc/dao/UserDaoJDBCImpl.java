@@ -57,7 +57,7 @@ public class UserDaoJDBCImpl implements UserDao {
             Util.getConnectionToDatabase().setTransactionIsolation(TRANSACTION_READ_COMMITTED);
             Util.getConnectionToDatabase().setAutoCommit(false);
             statement.executeUpdate("insert Users (user_name, last_name, age) values " +
-                    "(\'" + name + "\', \'" + lastName +"\', " + age + ");");
+                    "('" + name + "', '" + lastName +"', " + age + ");");
             System.out.println("User " + name + " added to database");
             Util.getConnectionToDatabase().commit();
             Util.getConnectionToDatabase().setAutoCommit(true);
