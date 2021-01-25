@@ -14,14 +14,14 @@ public class Main {
         userDao.saveUser("Oleg", "Smirnov", (byte) 35);
         userDao.saveUser("Marina", "Sidorova", (byte) 46);
         System.out.println(userDao.getAllUsers().toString());
-        userDao.removeUserById(1);
-        System.out.println(userDao.getAllUsers().toString());
+//        userDao.removeUserById(1);
+//        System.out.println(userDao.getAllUsers().toString());
         userDao.cleanUsersTable();
-        System.out.println(userDao.getAllUsers().toString());
-        userDao.saveUser("Anna", "Petrova", (byte) 22);
-        System.out.println(userDao.getAllUsers().toString());
+//        System.out.println(userDao.getAllUsers().toString());
+//        userDao.saveUser("Anna", "Petrova", (byte) 22);
+//        System.out.println(userDao.getAllUsers().toString() + " " + userDao.getAllUsers().size());
         userDao.dropUsersTable();
-        System.out.println("done");
+//        System.out.println("done");
         Util.getSessionFactory().close();
     }
 }
