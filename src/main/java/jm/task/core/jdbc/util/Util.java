@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
+    private static SessionFactory sessionFactory;
     private static final String url = "jdbc:mysql://localhost:3306/first";
     private static final String userName = "root";
     private static final String password = "123456789";
@@ -25,6 +26,7 @@ public class Util {
     }
 
     public static SessionFactory getSessionFactory() {
+        if(sessionFactory == null) {
             Configuration configurationForResult = new Configuration();
             Properties setting = new Properties();
             setting.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
@@ -38,11 +40,13 @@ public class Util {
             setting.put(Environment.POOL_SIZE, 1);
             setting.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
-        configurationForResult.setProperties(setting); // применить настройки
+            configurationForResult.setProperties(setting); // применить настройки
             configurationForResult.addAnnotatedClass(User.class); // добавить entity class
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configurationForResult.getProperties()).build();
+            sessionFactory = configurationForResult.buildSessionFactory(serviceRegistry);
+        }
 
-        return configurationForResult.buildSessionFactory(serviceRegistry);
+        return sessionFactory;
     }
 }

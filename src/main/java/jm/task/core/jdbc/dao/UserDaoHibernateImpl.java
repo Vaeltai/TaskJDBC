@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -20,10 +21,11 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.createSQLQuery("CREATE TABLE if NOT EXISTS Users (id BIGINT AUTO_INCREMENT PRIMARY KEY, \" +\n" +
-                    "\"user_name VARCHAR(255) NOT NULL, \" +\n" +
-                    "\"last_name VARCHAR(255) NOT NULL, \" +\n" +
-                    "\"age int NOT NULL);");
+            session.createSQLQuery("CREATE TABLE if NOT EXISTS Users " +
+                    "(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                    "user_name VARCHAR(255) NOT NULL, " +
+                    "last_name VARCHAR(255) NOT NULL, " +
+                    "age int NOT NULL);");
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -51,13 +53,11 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.createSQLQuery("INSERT INTO USERS (user_name, last_name, age) VALUES " +
-                    "('" + name + "', '" + lastName + "', " + age + ");")
-            .executeUpdate();
+            session.save(new User (name, lastName, age));
             System.out.println("User " + name + " added to database");
             transaction.commit();
         } catch (Exception e) {
-                transaction.rollback();
+            transaction.rollback();
         } finally {
             session.close();
         }
@@ -66,10 +66,10 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void removeUserById(long id) {
         try {
-        session = Util.getSessionFactory().openSession();
-        transaction = session.beginTransaction();
-        session.createSQLQuery("DELETE user WHERE id = " + id + ";")
-        .executeUpdate();
+            session = Util.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.createSQLQuery("DELETE user WHERE id = " + id + ";")
+                    .executeUpdate();
         } catch (Exception e) {
             transaction.rollback();
         } finally {
