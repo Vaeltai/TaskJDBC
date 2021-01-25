@@ -5,7 +5,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
@@ -35,7 +34,7 @@ public class Util {
             setting.put(Environment.USER, userName);
             setting.put(Environment.PASS, password);
             setting.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-            setting.put(Environment.HBM2DDL_AUTO, "create-drop");
+            setting.put(Environment.HBM2DDL_AUTO, "update");
 
             setting.put(Environment.POOL_SIZE, 1);
             setting.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
