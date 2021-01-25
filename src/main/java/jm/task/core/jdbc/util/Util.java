@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class Util {
     private static final String url = "jdbc:mysql://localhost:3306/first";
@@ -34,15 +33,9 @@ public class Util {
             setting.put(Environment.PASS, password);
             setting.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
             setting.put(Environment.SHOW_SQL, "true");
-            setting.put(Environment.HBM2DDL_AUTO, "create");
-           /*
-            validate : проверяет схему, не вносит изменений в базу данных.
-            update : обновить схему.
-            create : создает схему, уничтожая предыдущие данные.
-            create-drop : удалить схему при явном закрытии SessionFactory, обычно при остановке приложения.
-            none : ничего не делает со схемой, не вносит изменений в базу данных
-            */
-//            setting.put(Environment.POOL_SIZE, 1);
+            setting.put(Environment.HBM2DDL_AUTO, "update");
+
+            setting.put(Environment.POOL_SIZE, 1);
             setting.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
 
         configurationForResult.setProperties(setting); // применить настройки

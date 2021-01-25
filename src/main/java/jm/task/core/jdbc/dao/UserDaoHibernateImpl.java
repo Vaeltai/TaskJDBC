@@ -51,10 +51,9 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-//            User user = new User(name, lastName, age);
-//            session.save(user);
             session.createSQLQuery("INSERT INTO USERS (user_name, last_name, age) VALUES " +
-                    "('" + name + "', '" + lastName + "', " + age + ");");
+                    "('" + name + "', '" + lastName + "', " + age + ");")
+            .executeUpdate();
             System.out.println("User " + name + " added to database");
             transaction.commit();
         } catch (Exception e) {
@@ -69,7 +68,8 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
         session = Util.getSessionFactory().openSession();
         transaction = session.beginTransaction();
-        session.createSQLQuery("DELETE user WHERE id =" + id + ";");
+        session.createSQLQuery("DELETE user WHERE id = " + id + ";")
+        .executeUpdate();
         } catch (Exception e) {
             transaction.rollback();
         } finally {
@@ -79,11 +79,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        List<User> usersList = new ArrayList<>();
+        List<User> usersList = null;
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-//            usersList = (List<User>) session.createSQLQuery("From User").list();
+            usersList = (List<User>) session.createQuery("From User").list();
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -98,6 +98,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
+            session.createSQLQuery("TRUNCATE TABLE users;").executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
