@@ -42,6 +42,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createSQLQuery("DROP TABLE IF EXISTS Users;");
             transaction.commit();
         } catch (Exception e) {
+            System.out.println("exeption in dropUsersTable");
             transaction.rollback();
         } finally {
             session.close();
@@ -58,6 +59,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
+            System.out.println("exeption in saveUser");
         } finally {
             session.close();
         }
@@ -68,9 +70,10 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.createSQLQuery("DELETE user WHERE id = " + id + ";")
+            session.createSQLQuery("DELETE from Users WHERE id = " + id + ";")
                     .executeUpdate();
         } catch (Exception e) {
+            System.out.println("exeption in removeUserById");
             transaction.rollback();
         } finally {
             session.close();
@@ -86,6 +89,7 @@ public class UserDaoHibernateImpl implements UserDao {
             usersList = (List<User>) session.createQuery("From User").list();
             transaction.commit();
         } catch (Exception e) {
+            System.out.println("exeption in getAllUsers");
             transaction.rollback();
         } finally {
             session.close();
@@ -101,6 +105,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createSQLQuery("TRUNCATE TABLE users;").executeUpdate();
             transaction.commit();
         } catch (Exception e) {
+            System.out.println("exeption in cleanUsersTable");
             transaction.rollback();
         } finally {
             session.close();
